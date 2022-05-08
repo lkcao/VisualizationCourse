@@ -1,0 +1,12 @@
+name: UniversityFinder2013
+title: UniversityFinder2013
+username:
+account: lkcao93
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2632531
+bundleId: 3461971
+url: https://lkcao93.shinyapps.io/UniversityFinder2013/
+when: 1596255820.3171
+asMultiple: FALSE
+asStatic: FALSE
