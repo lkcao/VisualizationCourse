@@ -1,0 +1,112 @@
+---
+title: '8'
+output: html_document
+---
+setwd("D:/2020年summer/visualization/8/dm4_data-master/data")
+
+texts <- file.path("D:/2020年summer/visualization/8/dm4_data-master/data", "texts")
+dir(texts)
+docs <- VCorpus(DirSource(texts))
+summary(docs)
+writeLines(as.character(docs[1]))
+docs <- tm_map(docs, removePunctuation)
+writeLines(as.character(docs[1])) 
+
+for (j in seq(docs)) {
+  docs[[j]] <- gsub("/", " ", docs[[j]])
+  docs[[j]] <- gsub("’", " ", docs[[j]])
+  docs[[j]] <- gsub("—", " ", docs[[j]])
+  docs[[j]] <- gsub("\\|", " ", docs[[j]])
+  docs[[j]] <- gsub("@", " ", docs[[j]])
+  docs[[j]] <- gsub("\u2028", " ", docs[[j]])  # an ascii character that might not translate
+}
+writeLines(as.character(docs[1])) # always inspect
+
+for (j in seq(docs)) {
+  docs[[j]] <- gsub("fake news", "fake_news", docs[[j]])
+  docs[[j]] <- gsub("inner city", "inner-city", docs[[j]])
+  docs[[j]] <- gsub("I m", "I'm", docs[[j]])
+  docs[[j]] <- gsub("politically correct", "politically_correct", docs[[j]])
+}
+docs <- tm_map(docs, PlainTextDocument)
+
+docs <- tm_map(docs, removeNumbers) 
+docs <- tm_map(docs, tolower) 
+(docs <- tm_map(docs, PlainTextDocument)) 
+
+docs <- tm_map(docs, 
+               removeWords, 
+               stopwords("english"))
+docs <- tm_map(docs, PlainTextDocument) 
+docs <- tm_map(docs, removeWords, c("will")) 
+
+docs <- tm_map(docs, stripWhitespace)
+docs <- tm_map(docs, PlainTextDocument) 
+
+dtm <- DocumentTermMatrix(docs)
+tdm <- TermDocumentMatrix(docs)
+
+frequency <- sort(colSums(as.matrix(dtm)), 
+                  decreasing=TRUE)
+head(frequency) 
+findFreqTerms(dtm, lowfreq = 100)
+wf <- data.frame(word = names(frequency), 
+                 freq = frequency)
+head(wf, 15)  
+
+findAssocs(dtm, 
+           terms = "great", 
+           corlimit = 0.90) 
+
+findAssocs(dtm, 
+           terms = c("great" , "america"), 
+           co)%>%
+   as.tibble()rlimit = 0.90) 
+
+findAssocs(dtm, 
+           terms = "hell", 
+           corlimit = c(0.75, 0.5)) 
+           
+
+(unt_sotu <- sotu_meta %>%
+    unnest_tokens(output = word, 
+                  input = text))
+as_tibble(stop_words)
+stops_sotu <- unt_sotu %>%
+  anti_join(stop_words, 
+            by = "word") 
+
+
+      
+10,
+texts<- unt_sotu %>%
+   filter(year>1929,year<1945)
+get_sentiments("bing")
+sadness <- get_sentiments("bing") %>% 
+  filter(sentiment == "sadness")
+texts %>%
+  inner_join(sadness) %>% 
+  count(word, 
+        sort = TRUE) 
+
+
+11,
+modern <- sotu_meta %>%
+  filter(year > 1955) %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words, by = "word") %>%
+  group_by(year) %>%
+  count(word)
+
+
+12,
+(unt_sotu <- new %>%
+    unnest_tokens(output = word, 
+                  input = text))
+as_tibble(stop_words)
+stops_sotu <- unt_sotu %>%
+  anti_join(stop_words, 
+            by = "word") 
+
+13, 
+aa<-cast_dtm(unt_sotu,word,president,weighting = tm::weightTf)
